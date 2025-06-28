@@ -363,7 +363,7 @@ class DiscordWebSocket:
         # Circular import
         from .http import INTERNAL_API_VERSION
 
-        gateway = gateway or cls.DEFAULT_GATEWAY
+        gateway = cls.DEFAULT_GATEWAY
 
         if not compress:
             url = gateway.with_query(v=INTERNAL_API_VERSION, encoding=encoding)
@@ -449,7 +449,6 @@ class DiscordWebSocket:
                     'browser': 'discord.py',
                     'device': 'discord.py',
                 },
-                'compress': True,
                 'large_threshold': 250,
             },
         }
@@ -876,7 +875,7 @@ class DiscordVoiceWebSocket:
         hook: Optional[Callable[..., Coroutine[Any, Any, Any]]] = None,
     ) -> Self:
         """Creates a voice websocket for the :class:`VoiceClient`."""
-        gateway = f'wss://{state.endpoint}/?v=4'
+        gateway = f'ws://{state.endpoint}/?v=4'
         client = state.voice_client
         http = client._state.http
         socket = await http.ws_connect(gateway, compress=15)
